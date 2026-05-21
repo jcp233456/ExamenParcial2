@@ -1,0 +1,96 @@
+﻿@page "/personajes"
+@using BlazorApp1.Models
+@using BlazorApp1.Services
+@inject ServicioPersonaje servicio
+
+<h3>Registro de Guerrero</h3>
+
+<input placeholder="Nombre"
+       @bind="nombre" />
+
+<br />
+<br />
+
+<input type="number"
+       placeholder="Nivel"
+       @bind="nivel" />
+
+<br />
+<br />
+
+<input type="number"
+       placeholder="PV"
+       @bind="pv" />
+
+<br />
+<br />
+
+<input type="number"
+       placeholder="XP"
+       @bind="xp" />
+
+<br />
+<br />
+
+<select @bind="tipoArma">
+    <option>Espada</option>
+    <option>Hacha</option>
+    <option>Martillo</option>
+    <option>Lanza</option>
+</select>
+
+<br />
+<br />
+
+<input type="number"
+       placeholder="Defensa Física"
+       @bind="defensa" />
+
+<br />
+<br />
+
+<button @onclick="GuardarGuerrero">
+    Guardar
+</button>
+
+<hr />
+
+<h4>Total personajes: @servicio.personajes.Count</h4>
+
+@foreach (var p in servicio.personajes)
+{
+    <div>
+        <b>@p.nombre</b>
+        Nivel: @p.nivel
+        PV: @p.ptsvida
+        XP: @p.exp
+    </div>
+}
+
+@code {
+
+    string nombre;
+    int nivel;
+    int pv;
+    int xp;
+
+    string tipoArma = "Espada";
+    int defensa;
+
+    void GuardarGuerrero()
+    {
+        Guerrero g = new Guerrero()
+        {
+            nombre = nombre,
+            nivel = nivel,
+            ptsvida = pv,
+            exp = xp,
+            tipoarma = tipoArma,
+            defensa = defensa
+        };
+
+        servicio.personajes.Add(g);
+
+        servicio.Guardar();
+    }
+}
